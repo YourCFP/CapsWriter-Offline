@@ -105,12 +105,9 @@ class ResultHandler:
         
         # 4. 生成 srt
         if Config.file_save_srt:
-            # 构建 words 信息（无需依赖 json 文件）
-            words = [{'word': token.replace('@', ''), 'start': timestamp, 'end': timestamp + 0.2} 
+            # 构建 words 信息（无需依赖 json 文件；词只有 start，结束时刻在组句时生成）
+            words = [{'word': token.replace('@', ''), 'start': timestamp}
                      for (timestamp, token) in zip(timestamps, tokens)]
-            for i in range(len(words) - 1):
-                words[i]['end'] = min(words[i]['end'], words[i+1]['start'])
-            
             text_lines = text_split.splitlines()
             srt_filename = file.with_suffix('.srt')
 
